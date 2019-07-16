@@ -1,6 +1,5 @@
 <?php
-
-	$aURLs = array("https://data.portfolio.hu/all/json/4IG:interval=1M", "https://data.portfolio.hu/all/json/MOL:interval=1M"); // array of URLs
+    $aURLs = array("https://data.portfolio.hu/all/json/4IG:interval=1M", "https://data.portfolio.hu/all/json/MOL:interval=1M", "https://data.portfolio.hu/all/json/WABERERS:interval=1M", "https://data.portfolio.hu/all/json/FUTURAQUA:interval=1M", "https://data.portfolio.hu/all/json/MTELEKOM:interval=1M", "https://data.portfolio.hu/all/json/ESTMEDIA:interval=1M"); // array of URLs
     $mh = curl_multi_init(); // init the curl Multi
     
     $aCurlHandles = array(); // create an array for the individual curl handles
@@ -31,17 +30,15 @@
         }
     }
     $html = "";
-/* This is the relevant bit */
-        // iterate through the handles and get your content
+
     foreach ($aCurlHandles as $url=>$ch) {
         $html .= curl_multi_getcontent($ch)."|||"; // get the content
-                // do what you want with the HTML
         curl_multi_remove_handle($mh, $ch); // remove the handle (assuming  you are done with it);
     }
-/* End of the relevant bit */
+
 
     curl_multi_close($mh); // close the curl multi handler
-	echo $html;
+    echo $html;
 ?>
 
 
