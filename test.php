@@ -1,30 +1,6 @@
 <?php
     // Get stock data as a JSON file from an outer resource (Portfolio)
     if(isset($_POST["refresh"])){
-
-		// ***OLD AND DEPRICATED CODE***	
-
-        /*$arr = array();
-
-        // Create an array with the names of the most important Hungarian stocks
-        $stockNames = ["4IG", "ESTMEDIA", "FUTURAQUA", "MOL", "MTELEKOM", "WABERERS"];
-
-        // Dynamically get the content of the JSON file
-        for($i = 0; $i < count($stockNames); $i++){
-			$context = stream_context_create(array('http' => array('header'=>'Connection: close\r\n')));
-            $content = file_get_contents('https://data.portfolio.hu/all/json/'.$stockNames[$i].':interval=1M',false,$context);
-            array_push($arr, $content);
-        }
-
-        // Output the result of the array as chunks of strings separated by a specific delimiter (|||) since ajax cannot handle arrays
-        foreach ($arr as $key) {
-            echo $key."|||";
-        }
-        exit();	
-    */
-
-		// ***OLD AND DEPRICATED CODE***
-	
 		// Gather URLs into an array
 		$aURLs = array("https://data.portfolio.hu/all/json/4IG:interval=1M", 
 					"https://data.portfolio.hu/all/json/MOL:interval=1M",
