@@ -4,9 +4,10 @@ function _(el) {
 }
 
 // Preset data
+callback();
 setInterval(callback, 3000);
 
-_("hStocks").innerHTML = "<img src='/images/rolling.gif'>";
+_("hStocks").innerHTML = "<div class='hStocks nonStockCont'><div class='stockCont infoHolder' style='border-radius: 5px;'><img src='/images/rolling.gif'></div></div>";
 
 // Create a callback function that will constantly pull out fresh data from the outer resource
 function callback() {
@@ -14,7 +15,7 @@ function callback() {
 
     // Preset ajax request for client-server communication
     let xml = new XMLHttpRequest;
-    xml.open('POST', 'test.php', false);
+    xml.open('POST', 'main.php', false);
     xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xml.onreadystatechange = function() {
         if (xml.readyState == 4 && xml.status == 200) {

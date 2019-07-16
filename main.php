@@ -73,7 +73,7 @@
     </head>
     <body>
 		<header>
-			<a href="/test.php">Stock AI</a>
+			<a href="/main.php">Stock AI</a>
 			<div class="headerRight">
 				<a href="/downloads.php">Downloads</a>
 				<a href="/cont.php">Contribute</a>
