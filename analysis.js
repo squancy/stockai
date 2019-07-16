@@ -38,10 +38,6 @@ function callback() {
                 let kotesekData = json.kotesek;
                 let forgalom = json.forgalom;
 
-                /*kotesekData = Array(kotesekData);
-                let from = kotesekData[0].length - 9;
-                let to = kotesekData[0].length;*/
-
                 // Call function for analyzing the current stock
                 let indicators = analyzeStock(json.imgdata.data);
 
@@ -61,6 +57,7 @@ function callback() {
                 let ema9 = indicators[4];
                 let ema14 = indicators[5];
 
+                // Save the 3 values for momentum indicator
                 let mOne = momentum[0];
                 let mTwo = momentum[1];
                 let mThree = momentum[2]
@@ -75,6 +72,7 @@ function callback() {
                 let ema9Last = Number(ema9[ema9.length - 1]);
                 let ema14Last = Number(ema14[ema14.length - 1]);
 
+                // Create arrays for storing the last 3 values of moving averages
                 let ema3arr = [],
                     ema9arr = [],
                     ema14arr = [];
@@ -85,20 +83,28 @@ function callback() {
                     ema14arr.push(ema14[i]);
                 }
 
+                // Use destructuring to extract individual values from the array
                 let ema3One, ema3Two, ema3Three, ema9One, ema9Two, ema14One, ema14Two, ema14Three;
                 [ema3One, ema3Two, ema3Three] = ema3arr;
                 [ema9One, ema9Two, ema9Three] = ema9arr;
-                [ema14One, ema14Two, ema14Three] = ema3arr;
+                [ema14One, ema14Two, ema14Three] = ema14arr;
                 /*
                   Declare the required variables for holding the output text after the
                   comparison with the help of the techical analysis
                 */
 
+                // Declare output variables and points
                 let rsiText1, rsiText2, stochText, ema3Text, ema9Text, ema14Text;
                 let pointsSell = 0,
                     pointsBuy = 0;
 
                 // Create output for RSI
+                /*
+                  1. RSI is extremely close to the threshold value of the overbought range
+                  2. RSI is high in the overbought value
+                  3. RSI is in the neutral zone
+                  4. RSI is extremely close to the threshold value of the oversold range
+                */
                 if (rsi >= 79.5 && rsi <= 80.5) {
                     rsiText1 = "<span class='oversold'>Strong sell</span> (" + rsi + ")";
                     pointsSell += 2;
@@ -115,7 +121,7 @@ function callback() {
                     pointsBuy++;
                 }
 
-                // Create output for RSI Low
+                // Create output for RSI Low with the same logic as standard RSI
                 if (rsi >= 69.5 && rsi <= 70.5) {
                     rsiText2 = "<span class='oversold'>Strong sell</span> (" + rsi + ")";
                     if (pointsSell < 1) pointsSell += 1.5;
@@ -133,6 +139,14 @@ function callback() {
                 }
 
                 // Create output for Momentum
+                /*
+                  The last 3 values are calculated and the program compares the position of these values to the base line                           (100)
+                  1. First two values are below the base line, 3rd one is above / first value is below the base line, last two                      is above (engraves the base line from below)
+                  2. First two values are above the base line, 3rd one is below / first value is above the base line, last two                      is below (engraves the base line from above)
+                  3. Values are fluctuating somewhere between 100 and 110
+                  4. Values are fluctuating somewhere between 90 and 100
+                  5. Values are far above / below the base line
+                */
                 if ((mOne <= 100 && mTwo <= 100 && mThree > 100 && mThree < 105) || (mOne <= 100 && mTwo > 100 && mTwo <= 105 && mThree > 100 && mThree <= 105)) {
                     momText = "<span class='overbought'>Strong buy</span> (" + momentum.join(", ") + ")";
                     pointsBuy += 2;
@@ -150,6 +164,9 @@ function callback() {
                 }
 
                 // Create output for EMA3
+                /*
+                  With the same logic as before the program looks for engravings but this time the comparisons are between the                   values themselves, not between the values and a base line
+                */
                 if ((ema3One < close && ema3Two < close && ema3Three >= close) || (ema3One < close && ema3Two >= close && ema3Three >= close)) {
                     ema3Text = "<span class='overbought'>Strong Buy </span> (" + ema3Last + ")";
                     pointsBuy += 2;
@@ -183,6 +200,10 @@ function callback() {
                 }
 
                 // Create output for Stochastic
+                /*
+                  Checking for engravings between %K and %D but since the program only analyses when %K is below %D or vice versa it is not certain that their engraving point was there as well (the user may need to manually check the two values)
+                  For this reason Stochastic is weighted less then other indicators or moving averages
+                */
                 if (perK >= 80 && perD >= 80 && perK >= perD) {
                     stochText = "<span class='oversold'>Sell</span> (" + perK + ", " + perD + ")";
                     pointsSell += 1;
@@ -201,6 +222,9 @@ function callback() {
                     stochText = "<span class='neutral'>Neutral</span> (" + perK + ", " + perD + ")";
                 }
 
+                /* 
+                  Compares the closing price of today with the closing price of yesterday and decides whether the stock                         increased or decreased
+                */
                 let datay = Array.from(json.imgdata.data),
                     bigPrice, summary;
                 if (datay[datay.length - 2].close > close) {
@@ -211,6 +235,10 @@ function callback() {
                     bigPrice = "<span class='neutral'>" + close + "</span>"
                 }
 
+                // Logic for displaying summary
+                /*
+                  Compares buy and sell points and based on their difference it gives the appropriate result 
+                */
                 let isPos = pointsBuy - pointsSell;
                 let isNeg = pointsSell - pointsBuy;
 
@@ -268,7 +296,9 @@ function analyzeStock(data) {
 }
 
 function momentum(data, n) {
-    // Explicit type coercion: object to array => thus we got a two-dimensional array
+    /*
+      Formula: (closing price of today - closing price n days before) / (closing price n days before) * 100 + 100
+    */
     let datax = Array.from(data);
     let result = [];
     for (let i = 0; i < 3; i++) {
@@ -278,15 +308,14 @@ function momentum(data, n) {
         let e = ((todayClose - nBeforeClose) / (nBeforeClose) * 100 + 100).toFixed(2);
         result.push(e);
     }
-
-    // Return the value of Momentum with the precision of 4 decimals
+    
     return result;
 }
 
 function stochastic(data, n) {
     /*
         Formula: %K = 100 * ((Z - Ln) / (Hn - Ln))
-        where Z is the last closing price, Ln is the lowest price during the n period and Hn is the highest price during the n period
+        where Z is the last closing price, Ln is the lowest price during the n period and Hn is the highest price during the n         period
     */
 
     let stochData = [];
@@ -309,6 +338,7 @@ function stochastic(data, n) {
         // Select the lowest (Ln) price from the lowest prices and the highest price (Hn) from the highest prices during the n period
         let Ln = Math.min(...lowestPrices);
         let Hn = Math.max(...highestPrices);
+        
         // Use the formula to calculate Stochastic
         let perK = 100 * ((Z - Ln) / (Hn - Ln));
         stochData.push(perK);
@@ -355,6 +385,7 @@ function RSI(data, n) {
     // Count averages from prices
     let avgInc = increasedArr / incCount;
     let avgDec = descreasedArr / decCount;
+    
     // Return the value of RSI with the precision of 4 decimals
     return (100 - (100 / (1 + avgInc / avgDec))).toFixed(2);
 }
@@ -362,10 +393,10 @@ function RSI(data, n) {
 function movingAvg(optional, k, type) {
     let i, avgArr = [],
         sum = 0;
-    // Check if simple moving average is requested
     /*
         Formula: Sum(k) / Count(k) where k indicates the elements passed in
     */
+    
     if (type == "sma") {
         // Loop from zero to array.lenght - moving average period
         // For every element we count the SMA from the surronding prices
@@ -376,7 +407,6 @@ function movingAvg(optional, k, type) {
             avgArr.push(sum / k);
             sum = 0;
         }
-        // Check if exponential moving average is requested
     } else if (type == "ema") {
         /*
             Formula: (last price * x%) + (last EMA * (100 - x%))
@@ -405,6 +435,7 @@ function movingAvg(optional, k, type) {
     return avgArr;
 }
 
+// Simple function for printing large numbers in a prettier form (58126391 => 58,126,391)
 function prettyPrint(num) {
     let result = [];
     let formatNum = String(num).split("").reverse();
