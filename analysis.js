@@ -228,9 +228,11 @@ function callback() {
                 let datay = Array.from(json.imgdata.data),
                     bigPrice, summary;
                 if (datay[datay.length - 2].close > close) {
-                    bigPrice = "<span class='oversold'>" + close + "</span>";
+                    let percent = (close / (datay[datay.length - 2].close / 100) - 100).toFixed(2);
+                    bigPrice = "<span class='oversold'>" + close + " (-" + percent + "%)</span>";
                 } else if (datay[datay.length - 2].close < close) {
-                    bigPrice = "<span class='overbought'>" + close + "</span>"
+                    let percent = (close / (datay[datay.length - 2].close / 100) - 100).toFixed(2);
+                    bigPrice = "<span class='overbought'>" + close + " (+" + percent + "%)</span>"
                 } else {
                     bigPrice = "<span class='neutral'>" + close + "</span>"
                 }
