@@ -145,7 +145,7 @@ header > a{
 @media screen and (max-width: 768px) {
   .hStocks{
 		width: 100%;
-		margin-top: 35px;
+		margin-top: 30px;
 	}
 
 	header > a{
