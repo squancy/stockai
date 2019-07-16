@@ -3,9 +3,10 @@
         <title>Stock AI</title>
         <meta charset="utf-8">
         <meta lang="en">
-		<link rel="stylesheet" type="text/css" href="/style/style.css">
+		<link rel="stylesheet" type="text/css" href="/style/style_ai.css">
         <link rel="icon" type="image/x-icon" href="/images/favstock.png">
-        <meta name="description" content="A legnagyobb volatilitású magyar részvények analizálárása szolgáló open-source program.">
+        <meta name="description" content="An open-source service for analysing the most important Hungarian stocks.">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
 		<header>
@@ -13,7 +14,7 @@
 			<div class="headerRight">
 				<a href="/downloads.php">Downloads</a>
 				<a href="/cont.php">Contribute</a>
-				<a href="/about.php">About</a>
+				<a href="/about.php">Information</a>
 			</div>
 		</header>
 		<br><br><br><br>
@@ -21,8 +22,8 @@
 			<div class="stockCont infoHolder" style="border-radius: 5px;">
 				<b class="heading">1. Source code variations</b>
 				<b>&emsp;1.1 Download files separately</b>
-				<p>&emsp;&emsp;<a href="/main.php" download="main.php">main.php</a> (22 KB)</p>
-				<p>&emsp;&emsp;<a href="/analysis.js" download="analysis.js">analysis.js</a> (22 KB)</p>
+				<p>&emsp;&emsp;<a href="/main.php" download="main.php">main.php</a> (2.6 KB)</p>
+				<p>&emsp;&emsp;<a href="/analysis.js" download="analysis.js">analysis.js</a> (18 KB)</p>
 				<p>&emsp;&emsp;<a href="/downloads.php" download="downloads.php">downloads.php</a> (1 KB)</p>
 				<p>&emsp;&emsp;<a href="/cont.php" download="cont.php">contribute.php</a> (1.6 KB)</p>
 				<p>&emsp;&emsp;<a href="/about.php" download="about.php">about.php</a> (8 KB)</p>
@@ -33,7 +34,8 @@
 				<p>&emsp;&emsp;<a href="/curl.php" download>curl.php</a> -- optional (1.6 KB)</p>
 
 				<b>&emsp;1.2 Download files as a .tar or .zip file</b>
-				<p>&emsp;&emsp;<a href="/stockai.tar">stockai.tar</a></p>
+				<p>&emsp;&emsp;<a href="/stockai.tar">stockai.tar</a> (68 KB)</p>
+				<p>&emsp;&emsp;<a href="/stockai.zip">stockai.zip</a> (27 KB)</p>
 			</div>
 		</div>
 	</body>

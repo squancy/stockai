@@ -1,11 +1,12 @@
 <html>
     <head>
-        <title>Stock AI - About</title>
+        <title>Stock AI - Information</title>
         <meta charset="utf-8">
         <meta lang="en">
-		<link rel="stylesheet" type="text/css" href="/style/style.css">
+		<link rel="stylesheet" type="text/css" href="/style/style_ai.css">
         <link rel="icon" type="image/x-icon" href="/images/favstock.png">
-        <meta name="description" content="A legnagyobb volatilitású magyar részvények analizálárása szolgáló open-source program.">
+        <meta name="description" content="An open-source service for analysing the most important Hungarian stocks.">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
 		<header>
@@ -13,7 +14,7 @@
 			<div class="headerRight">
 				<a href="/downloads.php">Downloads</a>
 				<a href="/cont.php">Contribute</a>
-				<a href="/about.php">About</a>
+				<a href="/about.php">Information</a>
 			</div>
 		</header>
 		<br><br><br><br>
@@ -39,8 +40,8 @@
         <b>&emsp;2.3 Contribute page</b>
 				<p>&emsp;It is possible to contribute to the development of the service by giving feedback and suggestions via <a href="mailto:mark.frankli@pearscom.com">e-mail</a> or by editing and committing the source code via <a href="https://github.com/squancy/stockai">GitHub</a>.</p>
 
-        <b>&emsp;2.4 About page</b>
-				<p>&emsp;If any question arises during the use of the service make sure you check the <a href="/about.php">About</a> page first since there is a high change that you find the information you need. You can read about Stock AI's features, restrictions and documents as well as its goal and structure.</p>
+        <b>&emsp;2.4 Information page</b>
+				<p>&emsp;If any question arises during the use of the service make sure you check the <a href="/about.php">Information</a> page first since there is a high change that you find the information you need. You can read about Stock AI's features, restrictions and documents as well as its goal and structure.</p>
 
         <b class="heading">3. Techincal analysis</b>
         <b>&emsp;3.1 Currenly available stocks</b>

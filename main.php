@@ -67,9 +67,10 @@
         <title>Stock AI</title>
         <meta charset="utf-8">
         <meta lang="en">
-		<link rel="stylesheet" type="text/css" href="/style/style.css">
+		<link rel="stylesheet" type="text/css" href="/style/style_ai.css">
         <link rel="icon" type="image/x-icon" href="/images/favstock.png">
-        <meta name="description" content="A legnagyobb volatilitású magyar részvények analizálárása szolgáló open-source program.">
+        <meta name="description" content="An open-source service for analysing the most important Hungarian stocks.">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
 		<header>
@@ -77,7 +78,7 @@
 			<div class="headerRight">
 				<a href="/downloads.php">Downloads</a>
 				<a href="/cont.php">Contribute</a>
-				<a href="/about.php">About</a>
+				<a href="/about.php">Information</a>
 			</div>
 		</header>
 		<br><br><br><br>
