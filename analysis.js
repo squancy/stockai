@@ -229,7 +229,7 @@ function callback() {
                     bigPrice, summary;
                 if (datay[datay.length - 2].close > close) {
                     let percent = (close / (datay[datay.length - 2].close / 100) - 100).toFixed(2);
-                    bigPrice = "<span class='oversold'>" + close + " (-" + percent + "%)</span>";
+                    bigPrice = "<span class='oversold'>" + close + " (" + percent + "%)</span>";
                 } else if (datay[datay.length - 2].close < close) {
                     let percent = (close / (datay[datay.length - 2].close / 100) - 100).toFixed(2);
                     bigPrice = "<span class='overbought'>" + close + " (+" + percent + "%)</span>"
