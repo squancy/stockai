@@ -437,7 +437,7 @@ function movingAvg(optional, k, type) {
     return avgArr;
 }
 
-// Simple function for printing large numbers in a prettier form (58126391 => 58,126,391)
+// Function for printing large numbers in a prettier form (58126391 => 58,126,391)
 function prettyPrint(num) {
     let result = [];
     let formatNum = String(num).split("").reverse();
