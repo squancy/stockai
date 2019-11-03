@@ -14,8 +14,8 @@ header{
 	color: red;
 	padding: 15px 10px;
 	position: fixed;
-    width: 100%;
-    box-sizing: border-box;
+    	width: 100%;
+    	box-sizing: border-box;
 }
 
 .nonStockCont{
@@ -143,7 +143,7 @@ header > a{
 }
 
 @media screen and (max-width: 768px) {
-  .hStocks{
+  	.hStocks{
 		width: 100%;
 		margin-top: 35px;
 	}
@@ -159,6 +159,7 @@ header > a{
 	.headerRight{
 		display: flex;
 		justify-content: space-evenly;
+		width: 100%;
 	}
 
 	header a{
