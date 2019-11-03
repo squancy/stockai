@@ -5,9 +5,17 @@ function _(el) {
 
 // Preset data
 callback();
-setInterval(callback, 3000);
+setTimeout(callback, 3000);
 
 _("hStocks").innerHTML = "<div class='hStocks nonStockCont'><div class='stockCont infoHolder' style='border-radius: 5px;'><img src='/images/rolling.gif'></div></div>";
+
+function toggleTrade(id){
+    if(_(id).style.display == 'flex'){
+        _(id).style.display = 'none';
+    }else{
+        _(id).style.display = 'flex';
+    }
+}
 
 // Create a callback function that will constantly pull out fresh data from the outer resource
 function callback() {
@@ -36,8 +44,12 @@ function callback() {
                 let close = json.last;
                 let kotesek = json.kotesdb;
                 let ticker = json.ticker;
-                let kotesekData = json.kotesek;
+                let tradesData = json.kotesek;
                 let forgalom = json.forgalom;
+                
+                if(typeof tradesData === 'object'){
+                    tradesData = Object.keys(tradesData).map(i => tradesData[i]);
+                }
                 
                 let dataArr = Object.keys(json.imgdata.data).map(i => json.imgdata.data[i]);
 
@@ -45,6 +57,7 @@ function callback() {
                     _('hStocks').innerHTML = '<p style="color: #fdee38; text-align: center;">Warning: The stock data provider failed to hand the necessary data required for the analyzation</p>';
                     return;
                 }
+                
                 
                 // Call function for analyzing the current stock
                 let indicators = analyzeStock(dataArr);
@@ -266,6 +279,26 @@ function callback() {
                 } else {
                     summary = "<span class='neutral'>Neutral</span>";
                 }
+                
+                // Create output for trades
+                let tradesOutput = '';
+                let avgVolume = 0;
+                for(let tradeRow of tradesData){
+                    let direction = tradeRow[1];
+                    let tradePrice = tradeRow[3];
+                    let tradeVolume = tradeRow[4];
+                    avgVolume += Number(tradeVolume);
+                    let styleClass = '';
+                    if(direction == '+') styleClass = 'overbought';
+                    else if(direction == '-') styleClass = 'oversold';
+                    else styleClass = 'neutral';
+                    tradesOutput += `<p>
+                        Price: <span class='${styleClass}'>${tradePrice}</span> 
+                        &#9679; Volume: ${tradeVolume}
+                        &#9679; Value: ${prettyPrint(Number(tradeVolume) * Number(tradePrice))}</p>`;
+                }
+                avgVolume /= tradesData.length;
+            
 
                 // Output the result in the HTML page
                 _("hStocks").innerHTML += `
@@ -279,6 +312,7 @@ function callback() {
                         <div class="close">Close/current price: ${close}</div>
                         <div class="trades">Trades: ${kotesek}</div>
                         <div class="volume">Volume: ${prettyPrint(forgalom)}</div>
+                        <div class="volume">Average volume today: ${prettyPrint(Math.floor(avgVolume))}</div>
                       </div>
                       <div class="flexCont">
                         <div class="rsi">RSI: ${rsiText1}</div>
@@ -290,6 +324,9 @@ function callback() {
                         <div class="rsiLow">EMA14: ${ema14Text}</div>
                       </div>
                       <div class="summary">Summary: ${summary}</div>
+                      <br>
+                      <div class="checkTrades" id="checkTrades" onclick="toggleTrade('allTrades_${ticker}')">Check Trades</div>
+                      <div class="flexCont allTrades" id="allTrades_${ticker}">${tradesOutput}</div>
                     </div>
                   `;
             }
