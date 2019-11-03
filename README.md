@@ -48,8 +48,7 @@ All the data for the stocks are collected from data.portfolio.hu.
 ```
 git clone https://github.com/squancy/stockai/
 ```
-<br>
 You will need a local server to test it like XAMPP or LAMP.<br>
 Then open <b>main.php</b> in your browser.
-<br>
+<br><br>
 <p>If you still have any question feel free to check <a href="pearscom.com/stockai">Stock AI</a> or contact me via <a href="mailto:mark.frankli@pearscom.com">e-mail</a>.</p>
