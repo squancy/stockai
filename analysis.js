@@ -14,7 +14,7 @@ function callback() {
     _("hStocks").innerHTML = "";
 
     // Preset ajax request for client-server communication
-    let xml = new XMLHttpRequest;
+    let xml = new XMLHttpRequest();
     xml.open('POST', 'main.php', false);
     xml.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xml.onreadystatechange = function() {
@@ -25,6 +25,7 @@ function callback() {
             let tmp = resp.split("|||");
             for (let i = 0; i < tmp.length; i++) {
                 // Parse the current element of the array as a JSON file => accessing elements
+                tmp[i] = tmp[i].replace(/\s+/g, '');
                 let json = JSON.parse(tmp[i]);
 
                 // Save the required data for further usage
@@ -37,9 +38,16 @@ function callback() {
                 let ticker = json.ticker;
                 let kotesekData = json.kotesek;
                 let forgalom = json.forgalom;
+                
+                let dataArr = Object.keys(json.imgdata.data).map(i => json.imgdata.data[i]);
 
+                if(json.imgdata.data.length < 1){
+                    _('hStocks').innerHTML = '<p style="color: #fdee38; text-align: center;">Warning: The stock data provider failed to hand the necessary data required for the analyzation</p>';
+                    return;
+                }
+                
                 // Call function for analyzing the current stock
-                let indicators = analyzeStock(json.imgdata.data);
+                let indicators = analyzeStock(dataArr);
 
                 // Check if the current stock pays a dividend or not
                 let dividend = "";
@@ -67,7 +75,7 @@ function callback() {
                   later in the technical analysis
                 */
 
-                let lastPrice = json.imgdata.data[json.imgdata.data.length - 1].close;
+                let lastPrice = dataArr[dataArr.length - 1].close;
                 let ema3Last = Number(ema3[ema3.length - 1]);
                 let ema9Last = Number(ema9[ema9.length - 1]);
                 let ema14Last = Number(ema14[ema14.length - 1]);
@@ -225,13 +233,12 @@ function callback() {
                 /* 
                   Compares the closing price of today with the closing price of yesterday and decides whether the stock                         increased or decreased
                 */
-                let datay = Array.from(json.imgdata.data),
-                    bigPrice, summary;
-                if (datay[datay.length - 2].close > close) {
-                    let percent = (close / (datay[datay.length - 2].close / 100) - 100).toFixed(2);
+                let bigPrice, summary, closeBefore = dataArr[dataArr.length - 2];
+                if (closeBefore.close > close) {
+                    let percent = (close / (closeBefore.close / 100) - 100).toFixed(2);
                     bigPrice = "<span class='oversold'>" + close + " (" + percent + "%)</span>";
-                } else if (datay[datay.length - 2].close < close) {
-                    let percent = (close / (datay[datay.length - 2].close / 100) - 100).toFixed(2);
+                } else if (closeBefore.close < close) {
+                    let percent = (close / (closeBefore.close / 100) - 100).toFixed(2);
                     bigPrice = "<span class='overbought'>" + close + " (+" + percent + "%)</span>"
                 } else {
                     bigPrice = "<span class='neutral'>" + close + "</span>"
@@ -262,29 +269,29 @@ function callback() {
 
                 // Output the result in the HTML page
                 _("hStocks").innerHTML += `
-    <div class="stockCont">
-      <div class="title">${ticker} ${dividend} ${bigPrice}</div>
-      <div class="flexCont">
-        <div class="min">Min price: ${min}</div>
-        <div class="max">Max price: ${max}</div>
-        <div class="change">Change: ${change}</div>
-        <div class="open">Open price: ${open}</div>
-        <div class="close">Close/current price: ${close}</div>
-        <div class="trades">Trades: ${kotesek}</div>
-        <div class="volume">Volume: ${prettyPrint(forgalom)}</div>
-      </div>
-      <div class="flexCont">
-        <div class="rsi">RSI: ${rsiText1}</div>
-        <div class="rsiLow">RSI low: ${rsiText2}</div>
-        <div class="rsiLow">Momentum: ${momText}</div>
-        <div class="rsiLow">Stochastic: ${stochText}</div>
-        <div class="rsiLow">EMA3: ${ema3Text}</div>
-        <div class="rsiLow">EMA9: ${ema9Text}</div>
-        <div class="rsiLow">EMA14: ${ema14Text}</div>
-      </div>
-      <div class="summary">Summary: ${summary}</div>
-    </div>
-  `;
+                    <div class="stockCont">
+                      <div class="title">${ticker} ${dividend} ${bigPrice}</div>
+                      <div class="flexCont">
+                        <div class="min">Min price: ${min}</div>
+                        <div class="max">Max price: ${max}</div>
+                        <div class="change">Change: ${change}</div>
+                        <div class="open">Open price: ${open}</div>
+                        <div class="close">Close/current price: ${close}</div>
+                        <div class="trades">Trades: ${kotesek}</div>
+                        <div class="volume">Volume: ${prettyPrint(forgalom)}</div>
+                      </div>
+                      <div class="flexCont">
+                        <div class="rsi">RSI: ${rsiText1}</div>
+                        <div class="rsiLow">RSI low: ${rsiText2}</div>
+                        <div class="rsiLow">Momentum: ${momText}</div>
+                        <div class="rsiLow">Stochastic: ${stochText}</div>
+                        <div class="rsiLow">EMA3: ${ema3Text}</div>
+                        <div class="rsiLow">EMA9: ${ema9Text}</div>
+                        <div class="rsiLow">EMA14: ${ema14Text}</div>
+                      </div>
+                      <div class="summary">Summary: ${summary}</div>
+                    </div>
+                  `;
             }
         }
     }
@@ -301,12 +308,11 @@ function momentum(data, n) {
     /*
       Formula: (closing price of today - closing price n days before) / (closing price n days before) * 100 + 100
     */
-    let datax = Array.from(data);
     let result = [];
     for (let i = 0; i < 3; i++) {
-        let h = (datax.length) - (n + i + 1);
-        let todayClose = datax[datax.length - (i + 1)].close;
-        let nBeforeClose = datax[h].close;
+        let h = (data.length) - (n + i + 1);
+        let todayClose = data[data.length - (i + 1)].close;
+        let nBeforeClose = data[h].close;
         let e = ((todayClose - nBeforeClose) / (nBeforeClose) * 100 + 100).toFixed(2);
         result.push(e);
     }
@@ -321,21 +327,20 @@ function stochastic(data, n) {
     */
 
     let stochData = [];
-    let datax = Array.from(data);
-    let dataxBackup = datax;
-    datax.slice(Math.max(datax.length - n, 1));
+    let dataxBackup = data;
+    data.slice(Math.max(data.length - n, 1));
 
     for (let i = 1; i <= n; i++) {
         // Dynamically count the last n elements of the array and constantly stepping i elements back from the end
 
         // Get the closing price for today
-        let Z = datax[datax.length - 1].close;
+        let Z = data[data.length - 1].close;
 
         // Collect lowest prices during the n period
-        let lowestPrices = Array.from(datax.map(c => c.low));
+        let lowestPrices = Array.from(data.map(c => c.low));
 
         // Collect highest prices during the n period
-        let highestPrices = Array.from(datax.map(c => c.high));
+        let highestPrices = Array.from(data.map(c => c.high));
 
         // Select the lowest (Ln) price from the lowest prices and the highest price (Hn) from the highest prices during the n period
         let Ln = Math.min(...lowestPrices);
@@ -345,8 +350,8 @@ function stochastic(data, n) {
         let perK = 100 * ((Z - Ln) / (Hn - Ln));
         stochData.push(perK);
 
-        datax.pop();
-        datax.unshift(dataxBackup[n - i]);
+        data.pop();
+        data.unshift(dataxBackup[n - i]);
     }
 
     // Get %D with the 3 day moving average
@@ -364,21 +369,20 @@ function RSI(data, n) {
         and D indicates those that occurred during descreasing
     */
 
-    let datax = Array.from(data);
     let increasedArr = 0,
         descreasedArr = 0,
         incCount = 0,
         decCount = 0;
     for (let i = 0; i < n; i++) {
-        // Check if the datax[0][i + 1] element is undefied or not
-        if (datax.length != i + 1) {
+        // Check if the data[i + 1] element is undefied or not
+        if (data.length > i + 1) {
             // If not check/collect the prices occurred during decreasing over the n period
-            if (datax[i].close > datax[i + 1].close) {
-                descreasedArr += datax[i + 1].close;
+            if (data[i].close > data[i + 1].close) {
+                descreasedArr += data[i + 1].close;
                 decCount++;
-            } else if (datax[i].close < datax[i + 1].close) {
+            } else if (data[i].close < data[i + 1].close) {
                 // Otherwise, push it to the increased ones
-                increasedArr += datax[i + 1].close;
+                increasedArr += data[i + 1].close;
                 incCount++;
             }
         }
@@ -404,6 +408,9 @@ function movingAvg(optional, k, type) {
         // For every element we count the SMA from the surronding prices
         for (i = 0; i <= k; i++) {
             for (let n = i; n < i + k; n++) {
+                if(!optional[n].hasOwnProperty("close")){
+                    return "fuck";
+                }
                 sum += optional[n].close;
             }
             avgArr.push(sum / k);
@@ -419,9 +426,9 @@ function movingAvg(optional, k, type) {
 
         // Choose time interval for the 1st element of SMA
         let tInt;
-        if (nPeriod >= 0.4) tInt = 5;
-        else if (nPeriod >= 0.2) tInt = 7;
-        else tInt = 9;
+        if (nPeriod >= 0.4) tInt = 3;
+        else if (nPeriod >= 0.2) tInt = 5;
+        else tInt = 7;
 
         for (let i = 0; i < k; i++) {
             // Decide whether the last EMA exists or not
@@ -437,7 +444,7 @@ function movingAvg(optional, k, type) {
     return avgArr;
 }
 
-// Function for printing large numbers in a prettier form (58126391 => 58,126,391)
+// Simple function for printing large numbers in a prettier form (58126391 => 58,126,391)
 function prettyPrint(num) {
     let result = [];
     let formatNum = String(num).split("").reverse();
