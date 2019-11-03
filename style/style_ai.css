@@ -12,7 +12,7 @@ header{
 	overflow: hidden;
 	background-color: #282828; /* iconic black */
 	color: red;
-	padding: 15px 10px;
+	padding: 10px 10px;
 	position: fixed;
     width: 100%;
     box-sizing: border-box;
@@ -125,12 +125,27 @@ header > a{
 	color: gray;
 }
 
+.checkTrades{
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+    border-top: 1px solid #999;
+    border-bottom: 1px solid #999;
+    cursor: pointer;
+}
+
 .oversold{
 	color: red;
 }
 
 .overbought{
 	color: green;
+}
+
+.allTrades{
+    display: none;
+    flex-flow: column;
+    text-align: center;
 }
 
 .infoHolder > b{
@@ -159,6 +174,7 @@ header > a{
 	.headerRight{
 		display: flex;
 		justify-content: space-evenly;
+		width: 100%;
 	}
 
 	header a{
