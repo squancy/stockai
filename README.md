@@ -51,4 +51,4 @@ git clone https://github.com/squancy/stockai/
 You will need a local server to test it like XAMPP or LAMP.<br>
 Then open <b>main.php</b> in your browser.
 <br><br>
-<p>If you still have any question feel free to check <a href="pearscom.com/stockai">Stock AI</a> or contact me via <a href="mailto:mark.frankli@pearscom.com">e-mail</a>.</p>
+<p>If you still have any question feel free to check <a href="https://www.pearscom.com/stockai">Stock AI</a> or contact me via <a href="mailto:mark.frankli@pearscom.com">e-mail</a>.</p>
