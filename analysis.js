@@ -246,12 +246,17 @@ function callback() {
                 /* 
                   Compares the closing price of today with the closing price of yesterday and decides whether the stock                         increased or decreased
                 */
-                let bigPrice, summary, closeBefore = dataArr[dataArr.length - 2];
-                if (closeBefore.close > close) {
-                    let percent = (close / (closeBefore.close / 100) - 100).toFixed(2);
+                let keys = Object.keys(json.imgdata.data);
+                let ind = Math.max(...keys);
+                keys.splice(keys.indexOf(ind), 1);
+                ind = Math.max(...keys);
+
+                let bigPrice, summary, closeBefore = json.imgdata.data[ind].close;
+                if (closeBefore > close) {
+                    let percent = (close / (closeBefore / 100) - 100).toFixed(2);
                     bigPrice = "<span class='oversold'>" + close + " (" + percent + "%)</span>";
-                } else if (closeBefore.close < close) {
-                    let percent = (close / (closeBefore.close / 100) - 100).toFixed(2);
+                } else if (closeBefore < close) {
+                    let percent = (close / (closeBefore / 100) - 100).toFixed(2);
                     bigPrice = "<span class='overbought'>" + close + " (+" + percent + "%)</span>"
                 } else {
                     bigPrice = "<span class='neutral'>" + close + "</span>"
