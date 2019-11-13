@@ -1,65 +1,42 @@
 <?php
+    require_once 'php_includes/conn.php';
+    require_once 'php_includes/stock.php';
+
     // Get stock data as a JSON file from an outer resource (Portfolio)
-    if(isset($_POST["refresh"])){
-
-		// Gather URLs into an array
-		$aURLs = array("https://data.portfolio.hu/all/json/4IG:interval=1M",
-					"https://data.portfolio.hu/all/json/MOL:interval=1M",
-					"https://data.portfolio.hu/all/json/ESTMEDIA:interval=1M",
-					"https://data.portfolio.hu/all/json/FUTURAQUA:interval=1M",
-					"https://data.portfolio.hu/all/json/WABERERS:interval=1M",
-					"https://data.portfolio.hu/all/json/MTELEKOM:interval=1M");
-
-    	// Initialize curl for async (multi) use
-		$mh = curl_multi_init();
-
-		// Create array for curl handlers
-    	$aCurlHandles = array();
-
-    	foreach ($aURLs as $id=>$url) {
-			// Initialize a new curl instance at every iteration
-        	$ch = curl_init();
-
-			// Setup options
-        	curl_setopt($ch, CURLOPT_URL, $url);
-
-			// Save output for further usage with curl_multi_getcontent
-        	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        	curl_setopt($ch, CURLOPT_HEADER, 0);
-
-        	$aCurlHandles[$url] = $ch;
-        	curl_multi_add_handle($mh,$ch);
-    	}
-
-    	$active = null;
-
-		// Execute curl requests
-    	do {
-       		$mrc = curl_multi_exec($mh, $active);
-    	}
-    	while ($mrc == CURLM_CALL_MULTI_PERFORM);
-
-    	while ($active && $mrc == CURLM_OK) {
-        	if (curl_multi_select($mh) != -1) {
-            	do {
-                	$mrc = curl_multi_exec($mh, $active);
-            	} while ($mrc == CURLM_CALL_MULTI_PERFORM);
-        	}
-    	}
-    	$html = "";
-
-		// Iterate through the handles and get content
-    	foreach ($aCurlHandles as $url=>$ch) {
-			// Append it to $html with a delimeter at the end
-        	$html .= curl_multi_getcontent($ch)."|||";
-
-			// Remove handler
-        	curl_multi_remove_handle($mh, $ch);
-    	}
-
-		// Close curl connection
-    	curl_multi_close($mh);
+    if(isset($_POST["refresh"]) && $_POST["refresh"] == "now"){
+        $html = getDataStock();
 		echo $html;
+		exit();
+	}
+	
+	// Validate email address on server side
+	if(isset($_POST['email_addr'])){
+	    $email = $_POST['value'];
+	    $emailErr = "";
+	    
+	    $sql = "SELECT COUNT(id) FROM stockai_email WHERE email = ?";
+    	$stmt = $conn->prepare($sql);
+    	$stmt->bind_param("s",$email);
+    	$stmt->execute();
+    	$stmt->bind_result($emailCount);
+    	$stmt->fetch();
+    	$stmt->close();
+    	
+	    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $emailErr = "Invalid email format.";
+        }else if($emailCount > 0){
+            $emailErr = "Email already exists.";
+        }else{
+            $sql = "INSERT INTO stockai_email(email, time) VALUES(?,NOW())";
+			$stmt = $conn->prepare($sql);
+			$stmt->bind_param("s",$email);
+			$stmt->execute();
+			$stmt->close();	
+            echo "success";
+            exit();
+        }
+        echo $emailErr;
+	    exit();
 	}
 ?>
 <html>
@@ -71,6 +48,12 @@
         <link rel="icon" type="image/x-icon" href="/images/favstock.png">
         <meta name="description" content="An open-source service for analysing the most important Hungarian stocks.">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        	  <link rel="manifest" href="/manifest.json">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="#282828">
+        <meta name="apple-mobile-web-app-title" content="Pearscom">
+        <link rel="apple-touch-icon" href="/images/icons/icon-152x152.png">
+        <meta name="theme-color" content="#282828" />
     </head>
     <body>
 		<header>
@@ -82,8 +65,12 @@
 			</div>
 		</header>
 		<br><br><br><br>
+		<span id="emailText"></span>
+		<div id="outerEmail"></div>
+		<div id="status"></div>
         <div class="hStocks" id="hStocks"></div>
 		<?php require_once 'template_pageBottom.php'; ?>
         <script src="/analysis.js" type="text/javascript"></script>
+        <script src="/email.js" type="text/javascript"></script>
     </body>
 </html>
