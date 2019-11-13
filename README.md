@@ -42,9 +42,15 @@ All the data for the stocks are collected from data.portfolio.hu.
 <br>
 <b>How summary is calculated?</b>
 <p>Both sell and buy signs are summed up so that the maximum value for a certain stock is 13. Obviously, sell sum and buy sum cannot be 13 at the same time. If one of them has the maximum value the other one has to be 0, therefore either <i>sell sum - buy sum</i> or <i>buy sum - sell sum</i> will always return in a positive value. Taking this assertion to be true, the summary is calculated as follows: <br><p>- if <i>buy sum - sell sum</i> is positive and <i>buy sum - sell sum</i> >= 11 trade sign is <b>Strong buy</b></p><p>- else if <i>buy sum - sell sum</i> is positive and <i>buy sum - sell sum</i> >= 9 trade sign is <b>Buy</b></p><p>- else if <i>buy sum - sell sum</i> is positive and <i>buy sum - sell sum</i> >= 7 trade sign is <b>Buy sign</b></p><p>- else if <i>sell sum - buy sum</i> is positive and <i>sell sum - buy sum</i> >= 11 trade sign is <b>Strong sell</b></p><p>- else if <i>sell sum - buy sum</i> is positive and <i>sell sum - buy sum</i> >= 9 trade sign is <b>Sell</b></p><p>- else if <i>sell sum - buy sum</i> is positive and <i>sell sum - buy sum</i> >= 7 trade sign is <b>Sell sign</b></p><p>- else trade sign is <b>Neutral</b></p></p>
-<br>
+
 <h3>Email service</h3>
 <p>You can also give your email address and every time a stock changes +/-2% you will get a notification about it.</p>
+
+<h3>Nice TODOs</h3>
+  - Replace the old AJAX request in `analysis.js` with the newer ES6 fetch API + async/await functions just like in `email.js`
+  - Adding more indicators (due to the lack of data it might be a challenging problem)
+  - A broader analysis on the stocks containing market sentiment, P/E ratio etc. (may mix both technical and fundamental analysis)
+  - anything you think would be great ...
 
 <h3>Trying out</h3>
 
