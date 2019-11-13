@@ -7,7 +7,7 @@ All the data for the stocks are collected from data.portfolio.hu.
 
 <hr>
 
-<h3>Currenly available indicators</h3>
+# Currenly available indicators
 <b>RSI (Relative Strength Index)</b>
 <p>The formula is <i>100 - [100 / (1 + U / D)]</i> where <i>U</i> indicates increasing prices during an <i>n</i> period and <i>D</i> indicates decreasing prices during an <i>n</i> period. On Stock AI it is calculated with a 14 day time interval.<p>
   
@@ -24,7 +24,7 @@ All the data for the stocks are collected from data.portfolio.hu.
 <b>EMA (Exponential Moving Average)</b>
 <p>The formula is <i>(last closing price * x%) + (last EMA * (100 - x%))</i> where <i>x% = 2 / (1 + n)</i>, <i>n</i> is the time interval and for the first time (when there is no <i>last EMA</i>) <i>last EMA</i> is a simple moving average. Due to the lack of data, the first SMA time interval is calculated as follows: <br>- if <i>x%</i> >= 0.4 then <i>n = 5</i><br>- if 0.4 > <i>x%</i> >= 0.2 then <i>n = 7</i><br>- otherwise n = 9</i><br>On Stock AI there are EMA3, EMA9 and EMA14 calculated with a 3, 9 and 14 day time interval, respectively.</p>
 
-<h3>Signs, weights and summary</h3>
+# Signs, weights and summary
 <b>Strong sell</b>
 <p>Indicates a confident and strong sign to sell a certain stock. Weighted as 2x.</p>
 <b>Sell</b>
@@ -43,16 +43,16 @@ All the data for the stocks are collected from data.portfolio.hu.
 <b>How summary is calculated?</b>
 <p>Both sell and buy signs are summed up so that the maximum value for a certain stock is 13. Obviously, sell sum and buy sum cannot be 13 at the same time. If one of them has the maximum value the other one has to be 0, therefore either <i>sell sum - buy sum</i> or <i>buy sum - sell sum</i> will always return in a positive value. Taking this assertion to be true, the summary is calculated as follows: <br><p>- if <i>buy sum - sell sum</i> is positive and <i>buy sum - sell sum</i> >= 11 trade sign is <b>Strong buy</b></p><p>- else if <i>buy sum - sell sum</i> is positive and <i>buy sum - sell sum</i> >= 9 trade sign is <b>Buy</b></p><p>- else if <i>buy sum - sell sum</i> is positive and <i>buy sum - sell sum</i> >= 7 trade sign is <b>Buy sign</b></p><p>- else if <i>sell sum - buy sum</i> is positive and <i>sell sum - buy sum</i> >= 11 trade sign is <b>Strong sell</b></p><p>- else if <i>sell sum - buy sum</i> is positive and <i>sell sum - buy sum</i> >= 9 trade sign is <b>Sell</b></p><p>- else if <i>sell sum - buy sum</i> is positive and <i>sell sum - buy sum</i> >= 7 trade sign is <b>Sell sign</b></p><p>- else trade sign is <b>Neutral</b></p></p>
 
-<h3>Email service</h3>
+# Email service
 <p>You can also give your email address and every time a stock changes +/-2% you will get a notification about it.</p>
 
-<h3>Nice TODOs</h3>
+# Nice TODOs
   * Replace the old AJAX request in `analysis.js` with the newer ES6 fetch API + async/await functions just like in `email.js`
   * Adding more indicators (due to the lack of data it might be a challenging problem)
   * A broader analysis on the stocks containing market sentiment, P/E ratio etc. (may mix both technical and fundamental analysis)
   * anything you think would be great ...
 
-<h3>Trying out</h3>
+# Trying out
 
 ```
 git clone https://github.com/squancy/stockai/
