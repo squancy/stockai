@@ -35,17 +35,6 @@ CREATE TABLE `stockai_email` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `stockai_email`
---
-
-INSERT INTO `stockai_email` (`id`, `email`, `time`) VALUES
-(1, 'mark@pearscom.com', '2019-11-13 19:08:55');
-
---
--- Indexes for dumped tables
---
-
---
 -- Indexes for table `stockai_email`
 --
 ALTER TABLE `stockai_email`
