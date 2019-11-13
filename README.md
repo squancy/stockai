@@ -47,10 +47,10 @@ All the data for the stocks are collected from data.portfolio.hu.
 <p>You can also give your email address and every time a stock changes +/-2% you will get a notification about it.</p>
 
 <h3>Nice TODOs</h3>
-  - Replace the old AJAX request in `analysis.js` with the newer ES6 fetch API + async/await functions just like in `email.js`
-  - Adding more indicators (due to the lack of data it might be a challenging problem)
-  - A broader analysis on the stocks containing market sentiment, P/E ratio etc. (may mix both technical and fundamental analysis)
-  - anything you think would be great ...
+  * Replace the old AJAX request in `analysis.js` with the newer ES6 fetch API + async/await functions just like in `email.js`
+  * Adding more indicators (due to the lack of data it might be a challenging problem)
+  * A broader analysis on the stocks containing market sentiment, P/E ratio etc. (may mix both technical and fundamental analysis)
+  * anything you think would be great ...
 
 <h3>Trying out</h3>
 
