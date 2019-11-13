@@ -5,8 +5,6 @@ Stock AI is a basic aritifical intelligence program that, with the help of some 
 The calculations, functions and AI are mainly written is JavaScript, the data gathering and manipulation on the server-side are in PHP and the structure and styling is simple HTML and CSS.<br>
 All the data for the stocks are collected from data.portfolio.hu.
 
-<hr>
-
 # Currenly available indicators
 <b>RSI (Relative Strength Index)</b>
 <p>The formula is <i>100 - [100 / (1 + U / D)]</i> where <i>U</i> indicates increasing prices during an <i>n</i> period and <i>D</i> indicates decreasing prices during an <i>n</i> period. On Stock AI it is calculated with a 14 day time interval.<p>
