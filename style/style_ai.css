@@ -8,6 +8,55 @@ html, body{
 	background-color: #e6ecf0;
 }
 
+.red{
+    color: red;
+}
+
+.submit{
+    border: 1px solid red;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background-color: red;
+    color: white;
+    margin-bottom: 5px;
+    padding: 7px;
+    font-size: 14px;
+    width: 27%;
+    float: right;
+    margin-top: 3px;
+}
+
+.clear{
+    clear: both;
+}
+
+.green{
+    color: green;
+}
+
+#status{
+    text-align: center;
+}
+
+#outerEmail{
+    margin: 0 auto;
+    width: 20%;
+    box-sizing: border-box;
+}
+
+#innerEmail{
+    width: 70%;
+    box-sizing: border-box;
+    padding: 10px;
+    background: #fafafa;
+    border: 1px solid #e6e6e6;
+    border-radius: 15px;
+    display: block;
+    float: left;
+    font-size: 14px;
+    outline: none;
+}
+
 header{
 	overflow: hidden;
 	background-color: #282828; /* iconic black */
@@ -161,6 +210,14 @@ header > a{
   .hStocks{
 		width: 100%;
 		margin-top: 35px;
+	}
+	
+	#emailText > p{
+	    margin-top: 30px;
+	}
+	
+	#outerEmail{
+	    width: 90%;
 	}
 
 	header > a{
