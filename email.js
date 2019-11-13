@@ -2,7 +2,7 @@ function _(el){
     return document.getElementById(el);
 }
 
-localStorage.setItem('stock_email', 'no');
+// localStorage.setItem('stock_email', 'no');
 
 if(localStorage.getItem('stock_email') == 'no'){
     _('outerEmail').innerHTML = `
