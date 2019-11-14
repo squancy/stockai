@@ -5,7 +5,7 @@ function _(el) {
 
 // Preset data
 callback();
-setTimeout(callback, 3000);
+setInterval(callback, 3000);
 
 _("hStocks").innerHTML = "<div class='hStocks nonStockCont'><div class='stockCont infoHolder' style='border-radius: 5px;'><img src='/images/rolling.gif'></div></div>";
 
