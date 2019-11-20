@@ -41,7 +41,7 @@ function callback() {
                 let max = json.max;
                 let change = json.chg;
                 let open = json.open;
-                let close = json.last;
+                let close = Number(json.last);
                 let kotesek = json.kotesdb;
                 let ticker = json.ticker;
                 let tradesData = json.kotesek;
@@ -248,10 +248,13 @@ function callback() {
                 */
                 let keys = Object.keys(json.imgdata.data);
                 let ind = Math.max(...keys);
-                keys.splice(keys.indexOf(ind), 1);
-                ind = Math.max(...keys);
-
+                for(let i = 0; i < 2; i++){
+                    keys.splice(keys.indexOf(ind), 1);
+                    ind = Math.max(...keys);
+                }
+                
                 let bigPrice, summary, closeBefore = json.imgdata.data[ind].close;
+
                 if (closeBefore > close) {
                     let percent = (close / (closeBefore / 100) - 100).toFixed(2);
                     bigPrice = "<span class='oversold'>" + close + " (" + percent + "%)</span>";

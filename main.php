@@ -37,11 +37,31 @@
         }
         echo $emailErr;
 	    exit();
+	}else if(isset($_POST['unsub'])){
+	    $email = $_POST['unsub'];
+	    $sql = "SELECT COUNT(id) FROM stockai_email WHERE email = ?";
+    	$stmt = $conn->prepare($sql);
+    	$stmt->bind_param("s",$email);
+    	$stmt->execute();
+    	$stmt->bind_result($emailCount);
+    	$stmt->fetch();
+    	$stmt->close();
+    	if($emailCount < 1){
+    	    echo "Email does not exist.";
+    	    exit();
+    	}
+    	$sql = "DELETE FROM stockai_email WHERE email=? LIMIT 1";
+		$stmt = $conn->prepare($sql);
+		$stmt->bind_param("s",$email);
+		$stmt->execute();
+		$stmt->close();
+		echo "success";
+		exit();
 	}
 ?>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        
         <title>Stock AI</title>
         
         <meta lang="en">
