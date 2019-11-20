@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 13, 2019 at 09:42 PM
+-- Generation Time: Nov 20, 2019 at 06:04 PM
 -- Server version: 5.6.45-log
--- PHP Version: 7.2.7
+-- PHP Version: 7.3.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -31,8 +31,20 @@ SET time_zone = "+00:00";
 CREATE TABLE `stockai_email` (
   `id` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `count` int(11) NOT NULL,
   `time` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `stockai_email`
+--
+
+INSERT INTO `stockai_email` (`id`, `email`, `count`, `time`) VALUES
+(1, 'mark@pearscom.com', 0, '2019-11-13 19:08:55');
+
+--
+-- Indexes for dumped tables
+--
 
 --
 -- Indexes for table `stockai_email`
