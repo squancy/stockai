@@ -27,7 +27,7 @@
         }else if($emailCount > 0){
             $emailErr = "Email already exists.";
         }else{
-            $sql = "INSERT INTO stockai_email(email, time) VALUES(?,NOW())";
+            $sql = "INSERT INTO stockai_email(email, count, time) VALUES(?,0,NOW())";
 			$stmt = $conn->prepare($sql);
 			$stmt->bind_param("s",$email);
 			$stmt->execute();
@@ -41,8 +41,9 @@
 ?>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Stock AI</title>
-        <meta charset="utf-8">
+        
         <meta lang="en">
 		<link rel="stylesheet" type="text/css" href="/style/style_ai.css">
         <link rel="icon" type="image/x-icon" href="/images/favstock.png">
