@@ -8,6 +8,11 @@ html, body{
 	background-color: #e6ecf0;
 }
 
+a, a:hover{
+    color: red;
+    text-decoration: none;
+}
+
 .red{
     color: red;
 }
