@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `pearscom_socialmedia`
+-- Database: `---`
 --
 
 -- --------------------------------------------------------
@@ -34,17 +34,6 @@ CREATE TABLE `stockai_email` (
   `count` int(11) NOT NULL,
   `time` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `stockai_email`
---
-
-INSERT INTO `stockai_email` (`id`, `email`, `count`, `time`) VALUES
-(1, 'mark@pearscom.com', 0, '2019-11-13 19:08:55');
-
---
--- Indexes for dumped tables
---
 
 --
 -- Indexes for table `stockai_email`
