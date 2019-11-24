@@ -5,15 +5,18 @@ function _(el) {
 
 // Preset data
 callback();
-setInterval(callback, 3000);
+let handle = setInterval(callback, 3000);
 
 _("hStocks").innerHTML = "<div class='hStocks nonStockCont'><div class='stockCont infoHolder' style='border-radius: 5px;'><img src='/images/rolling.gif'></div></div>";
 
 function toggleTrade(id){
     if(_(id).style.display == 'flex'){
         _(id).style.display = 'none';
+        handle = setInterval(callback, 3000);
     }else{
         _(id).style.display = 'flex';
+        clearInterval(handle);
+        handle = 0;
     }
 }
 
