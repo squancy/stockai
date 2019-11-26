@@ -4,6 +4,11 @@
     
     // Send an email to every subscriber if any of the stock prices has changed at least +/- 2%
     
+    function isTodayWeekend() {
+        $currentDate = new DateTime("now", new DateTimeZone("Europe/Budapest"));
+        return $currentDate->format('N') >= 6;
+    }
+    
     $data = getDataStock();
     $pieces = explode("|||", $data);
     $dateNow = new DateTime(date('Y-m-d H:i:s'));
@@ -24,7 +29,7 @@
         $open = intval($final['open']);
         $current = intval($final['last']);
         $stock = $final['ticker'];
-        if(($current / ($open / 100) >= 102) || ($current / ($open / 100) <= 98)){
+        if((($current / ($open / 100) >= 102) || ($current / ($open / 100) <= 98)) && !isTodayWeekend($dateNow)){
             date_default_timezone_set('Europe/Budapest');
             if($dateNow >= $dateOpen && $dateNow <= $dateClose){
                 // Send email
@@ -48,7 +53,7 @@
         			$message = '
         			<!DOCTYPE html>
                     <html>
-                           <head>
+                           <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
                                 <title>Stock AI - '.$stock.'</title>
                     		    <link rel="stylesheet" type="text/css" href="https://www.pearscom.com/style/style_ai.css">
                     		    <style>
