@@ -2,7 +2,7 @@ function _(el){
     return document.getElementById(el);
 }
 
-if(localStorage.getItem('stock_email') == 'no'){
+if(localStorage.getItem('stock_email') == 'no' || !localStorage.getItem('stock_email')){
     _('outerEmail').innerHTML = `
         <input id="innerEmail" type="email" placeholder="Email address">
         <button id="innerBtn" class="submit">Submit</button>
