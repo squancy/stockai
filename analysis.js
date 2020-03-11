@@ -7,7 +7,13 @@ function _(el) {
 callback();
 let handle = setInterval(callback, 3000);
 
-_("hStocks").innerHTML = "<div class='hStocks nonStockCont'><div class='stockCont infoHolder' style='border-radius: 5px;'><img src='/images/rolling.gif'></div></div>";
+_("hStocks").innerHTML = `
+  <div class='hStocks nonStockCont'>
+    <div class='stockCont infoHolder' style='border-radius: 5px;'>
+      <img src='/images/rolling.gif'>
+    </div>
+  </div>
+`;
 
 function toggleTrade(id){
     if(_(id).style.display == 'flex'){
@@ -57,7 +63,12 @@ function callback() {
                 let dataArr = Object.keys(json.imgdata.data).map(i => json.imgdata.data[i]);
 
                 if(json.imgdata.data.length < 1){
-                    _('hStocks').innerHTML = '<p style="color: #fdee38; text-align: center;">Warning: The stock data provider failed to hand the necessary data required for the analyzation</p>';
+                    _('hStocks').innerHTML = `
+                      <p style="color: #fdee38; text-align: center;">
+                        Warning: The stock data provider failed to hand the necessary data
+                        required for the analyzation
+                      </p>
+                    `;
                     return;
                 }
                 
@@ -108,14 +119,11 @@ function callback() {
                 }
 
                 // Use destructuring to extract individual values from the array
-                let ema3One, ema3Two, ema3Three, ema9One, ema9Two, ema14One, ema14Two, ema14Three;
+                let ema3One, ema3Two, ema3Three, ema9One, ema9Two, ema14One, ema14Two,
+                  ema14Three;
                 [ema3One, ema3Two, ema3Three] = ema3arr;
                 [ema9One, ema9Two, ema9Three] = ema9arr;
                 [ema14One, ema14Two, ema14Three] = ema14arr;
-                /*
-                  Declare the required variables for holding the output text after the
-                  comparison with the help of the techical analysis
-                */
 
                 // Declare output variables and points
                 let rsiText1, rsiText2, stochText, ema3Text, ema9Text, ema14Text;
@@ -123,12 +131,6 @@ function callback() {
                     pointsBuy = 0;
 
                 // Create output for RSI
-                /*
-                  1. RSI is extremely close to the threshold value of the overbought range
-                  2. RSI is high in the overbought value
-                  3. RSI is in the neutral zone
-                  4. RSI is extremely close to the threshold value of the oversold range
-                */
                 if (rsi >= 79.5 && rsi <= 80.5) {
                     rsiText1 = "<span class='oversold'>Strong sell</span> (" + rsi + ")";
                     pointsSell += 2;
@@ -163,38 +165,36 @@ function callback() {
                 }
 
                 // Create output for Momentum
-                /*
-                  The last 3 values are calculated and the program compares the position of these values to the base line                           (100)
-                  1. First two values are below the base line, 3rd one is above / first value is below the base line, last two                      is above (engraves the base line from below)
-                  2. First two values are above the base line, 3rd one is below / first value is above the base line, last two                      is below (engraves the base line from above)
-                  3. Values are fluctuating somewhere between 100 and 110
-                  4. Values are fluctuating somewhere between 90 and 100
-                  5. Values are far above / below the base line
-                */
-                if ((mOne <= 100 && mTwo <= 100 && mThree > 100 && mThree < 105) || (mOne <= 100 && mTwo > 100 && mTwo <= 105 && mThree > 100 && mThree <= 105)) {
-                    momText = "<span class='overbought'>Strong buy</span> (" + momentum.join(", ") + ")";
+                if ((mOne <= 100 && mTwo <= 100 && mThree > 100 && mThree < 105) ||
+                  (mOne <= 100 && mTwo > 100 && mTwo <= 105 && mThree > 100 && mThree <= 105)) {
+                    momText = "<span class='overbought'>Strong buy</span> (" +
+                      momentum.join(", ") + ")";
                     pointsBuy += 2;
-                } else if ((mOne > 100 && mTwo > 100 && mThree < 100 && mThree >= 95) || (mOne > 100 && mTwo < 100 && mTwo >= 95 && mThree < 100 && mThree >= 95)) {
-                    momText = "<span class='oversold'>Strong sell</span> (" + momentum.join(", ") + ")"
+                } else if ((mOne > 100 && mTwo > 100 && mThree < 100 && mThree >= 95) ||
+                  (mOne > 100 && mTwo < 100 && mTwo >= 95 && mThree < 100 && mThree >= 95)) {
+                    momText = "<span class='oversold'>Strong sell</span> (" +
+                      momentum.join(", ") + ")"
                     pointsSell += 2;
                 } else if (mThree >= 100 && mThree < 110) {
-                    momText = "<span class='oversold'>Sell sign</span> (" + momentum.join(", ") + ")";
+                    momText = "<span class='oversold'>Sell sign</span> (" +
+                      momentum.join(", ") + ")";
                     pointsSell += 0.75;
                 } else if (mThree < 100 && mThree >= 90) {
-                    momText = "<span class='overbought'>Buy sign</span> (" + momentum.join(", ") + ")";
+                    momText = "<span class='overbought'>Buy sign</span> (" +
+                      momentum.join(", ") + ")";
                     pointsBuy += 0.75;
                 } else {
-                    momText = "<span class='neutral'>Neutral</span> (" + momentum.join(", ") + ")";
+                    momText = "<span class='neutral'>Neutral</span> (" +
+                      momentum.join(", ") + ")";
                 }
 
                 // Create output for EMA3
-                /*
-                  With the same logic as before the program looks for engravings but this time the comparisons are between the                   values themselves, not between the values and a base line
-                */
-                if ((ema3One < close && ema3Two < close && ema3Three >= close) || (ema3One < close && ema3Two >= close && ema3Three >= close)) {
+                if ((ema3One < close && ema3Two < close && ema3Three >= close) ||
+                  (ema3One < close && ema3Two >= close && ema3Three >= close)) {
                     ema3Text = "<span class='overbought'>Strong Buy </span> (" + ema3Last + ")";
                     pointsBuy += 2;
-                } else if ((ema3One > close && ema3Two <= close && ema3Three <= close) || (ema3One > close && ema3Two > close && ema3Three <= close)) {
+                } else if ((ema3One > close && ema3Two <= close && ema3Three <= close) ||
+                  (ema3One > close && ema3Two > close && ema3Three <= close)) {
                     ema3Text = "<span class='oversold'>Strong Sell</span> (" + ema3Last + ")";
                     pointsSell += 2;
                 } else {
@@ -202,10 +202,12 @@ function callback() {
                 }
 
                 // Create output for EMA9
-                if ((ema9One < close && ema9Two < close && ema9Three >= close) || (ema9One < close && ema9Two >= close && ema9Three >= close)) {
+                if ((ema9One < close && ema9Two < close && ema9Three >= close) ||
+                  (ema9One < close && ema9Two >= close && ema9Three >= close)) {
                     ema9Text = "<span class='overbought'>Strong Buy</span> (" + ema9Last + ")";
                     pointsBuy += 2;
-                } else if ((ema9One > close && ema9Two <= close && ema9Three <= close) || (ema9One > close && ema9Two > close && ema9Three <= close)) {
+                } else if ((ema9One > close && ema9Two <= close && ema9Three <= close) ||
+                  (ema9One > close && ema9Two > close && ema9Three <= close)) {
                     ema9Text = "<span class='oversold'>Strong sell</span> (" + ema9Last + ")";
                     pointsSell += 2;
                 } else {
@@ -213,42 +215,55 @@ function callback() {
                 }
 
                 // Create output for EMA14
-                if ((ema14One < close && ema14Two < close && ema14Three >= close) || (ema14One < close && ema14Two >= close && ema14Three >= close)) {
-                    ema14Text = "<span class='overbought'>Strong buy</span> (" + ema14Last + ")";
+                if ((ema14One < close && ema14Two < close && ema14Three >= close) ||
+                  (ema14One < close && ema14Two >= close && ema14Three >= close)) {
+                    ema14Text = `
+                      <span class='overbought'>Strong buy</span> (${ema14Last})
+                    `;
                     pointsBuy += 2;
-                } else if ((ema14One > close && ema14Two <= close && ema14Three <= close) || (ema14One > close && ema14Two > close && ema14Three <= close)) {
-                    ema14Text = "<span class='oversold'>Strong sell</span> (" + ema14Last + ")";
+                } else if ((ema14One > close && ema14Two <= close && ema14Three <= close) ||
+                  (ema14One > close && ema14Two > close && ema14Three <= close)) {
+                    ema14Text = `
+                      <span class='oversold'>Strong sell</span> (${ema14Last})
+                    `;
                     pointsSell += 2;
                 } else {
-                    ema14Text = "<span class='neutral'>Neutral</span> (" + ema14Last + ")";
+                    ema14Text = `
+                      <span class='neutral'>Neutral</span> (${ema14Last})
+                    `;
                 }
 
                 // Create output for Stochastic
-                /*
-                  Checking for engravings between %K and %D but since the program only analyses when %K is below %D or vice versa it is not certain that their engraving point was there as well (the user may need to manually check the two values)
-                  For this reason Stochastic is weighted less then other indicators or moving averages
-                */
                 if (perK >= 80 && perD >= 80 && perK >= perD) {
-                    stochText = "<span class='oversold'>Sell</span> (" + perK + ", " + perD + ")";
+                    stochText = `
+                      <span class='oversold'>Sell</span> (${perK}, ${perD})
+                    `;
                     pointsSell += 1;
                 } else if (perK >= 80 && perD >= 80 && perK < perD) {
-                    stochText = "<span class='oversold'>Sell sign</span> (" + perK + ", " + perD + ")";
+                    stochText = `
+                      <span class='oversold'>Sell sign</span> (${perK}, ${perD})
+                    `;
                     pointsSell += 0.75;
                 } else if (perK < 80 && perD < 80 && perK > 20 && perD > 20) {
-                    stochText = "<span class='neutral'>Neutral</span> (" + perK + ", " + perD + ")";
+                    stochText = `
+                      <span class='neutral'>Neutral</span> (${perK}, ${perD})
+                    `;
                 } else if (perK <= 20 && perD <= 20 && perK <= perD) {
-                    stochText = "<span class='overbought'>Buy</span> (" + perK + ", " + perD + ")";
+                    stochText = `
+                      <span class='overbought'>Buy</span> (${perK}, ${perD})
+                    `;
                     pointsBuy += 1;
                 } else if (perK <= 20 && perD <= 20 && perK > perD) {
-                    stochText = "<span class='overbought'>Buy sign</span> (" + perK + ", " + perD + ")";
+                    stochText = `
+                      <span class='overbought'>Buy sign</span> (${perK}, ${perD})
+                    `;
                     pointsBuy += 0.75;
                 } else {
-                    stochText = "<span class='neutral'>Neutral</span> (" + perK + ", " + perD + ")";
+                    stochText = `
+                      <span class='neutral'>Neutral</span> (${perK}, ${perD})
+                    `;
                 }
 
-                /* 
-                  Compares the closing price of today with the closing price of yesterday and decides whether the stock                         increased or decreased
-                */
                 let keys = Object.keys(json.imgdata.data);
                 let ind = Math.max(...keys);
                 for(let i = 0; i < 2; i++){
@@ -263,15 +278,14 @@ function callback() {
                     bigPrice = "<span class='oversold'>" + close + " (" + percent + "%)</span>";
                 } else if (closeBefore < close) {
                     let percent = (close / (closeBefore / 100) - 100).toFixed(2);
-                    bigPrice = "<span class='overbought'>" + close + " (+" + percent + "%)</span>"
+                    bigPrice = `
+                      <span class='overbought'>${close} (${percent}%)</span>
+                    `;
                 } else {
                     bigPrice = "<span class='neutral'>" + close + "</span>"
                 }
 
                 // Logic for displaying summary
-                /*
-                  Compares buy and sell points and based on their difference it gives the appropriate result 
-                */
                 let isPos = pointsBuy - pointsSell;
                 let isNeg = pointsSell - pointsBuy;
 
@@ -303,10 +317,13 @@ function callback() {
                     if(direction == '+') styleClass = 'overbought';
                     else if(direction == '-') styleClass = 'oversold';
                     else styleClass = 'neutral';
-                    tradesOutput += `<p>
+                    tradesOutput += `
+                      <p>
                         Price: <span class='${styleClass}'>${tradePrice}</span> 
                         &#9679; Volume: ${tradeVolume}
-                        &#9679; Value: ${prettyPrint(Number(tradeVolume) * Number(tradePrice))}</p>`;
+                        &#9679; Value: ${prettyPrint(Number(tradeVolume) * Number(tradePrice))}
+                      </p>
+                    `;
                 }
                 avgVolume /= tradesData.length;
             
@@ -323,7 +340,9 @@ function callback() {
                         <div class="close">Close/current price: ${close}</div>
                         <div class="trades">Trades: ${kotesek}</div>
                         <div class="volume">Volume: ${prettyPrint(forgalom)}</div>
-                        <div class="volume">Average volume today: ${prettyPrint(Math.floor(avgVolume))}</div>
+                        <div class="volume">Average volume today:
+                          ${prettyPrint(Math.floor(avgVolume))}
+                        </div>
                       </div>
                       <div class="flexCont">
                         <div class="rsi">RSI: ${rsiText1}</div>
@@ -336,8 +355,10 @@ function callback() {
                       </div>
                       <div class="summary">Summary: ${summary}</div>
                       <br>
-                      <div class="checkTrades" id="checkTrades" onclick="toggleTrade('allTrades_${ticker}')">Check Trades</div>
-                      <div class="flexCont allTrades" id="allTrades_${ticker}">${tradesOutput}</div>
+                      <div class="checkTrades" id="checkTrades"
+                        onclick="toggleTrade('allTrades_${ticker}')">Check Trades</div>
+                      <div class="flexCont allTrades"
+                        id="allTrades_${ticker}">${tradesOutput}</div>
                     </div>
                   `;
             }
@@ -348,13 +369,14 @@ function callback() {
 
 // Analyze stocks with technical analysis
 function analyzeStock(data) {
-    // Returns an array holding all the information about the analysis
-    return [RSI(data, 14), momentum(data, 14), stochastic(data, 6), movingAvg(data, 3, "ema"), movingAvg(data, 9, "ema"), movingAvg(data, 14, "ema")];
+    return [RSI(data, 14), momentum(data, 14), stochastic(data, 6), movingAvg(data, 3, "ema"),
+      movingAvg(data, 9, "ema"), movingAvg(data, 14, "ema")];
 }
 
 function momentum(data, n) {
     /*
-      Formula: (closing price of today - closing price n days before) / (closing price n days before) * 100 + 100
+      Formula: (closing price of today - closing price n days before) /
+      (closing price n days before) * 100 + 100
     */
     let result = [];
     for (let i = 0; i < 3; i++) {
@@ -370,8 +392,9 @@ function momentum(data, n) {
 
 function stochastic(data, n) {
     /*
-        Formula: %K = 100 * ((Z - Ln) / (Hn - Ln))
-        where Z is the last closing price, Ln is the lowest price during the n period and Hn is the highest price during the n         period
+      Formula: %K = 100 * ((Z - Ln) / (Hn - Ln))
+      where Z is the last closing price, Ln is the lowest price during the n period and Hn
+      is the highest price during the n period
     */
 
     let stochData = [];
@@ -379,9 +402,11 @@ function stochastic(data, n) {
     data.slice(Math.max(data.length - n, 1));
 
     for (let i = 1; i <= n; i++) {
-        // Dynamically count the last n elements of the array and constantly stepping i elements back from the end
+        /*
+          Dynamically count the last n elements of the array and constantly stepping i
+          * elements back from the end
+        */
 
-        // Get the closing price for today
         let Z = data[data.length - 1].close;
 
         // Collect lowest prices during the n period
@@ -390,11 +415,13 @@ function stochastic(data, n) {
         // Collect highest prices during the n period
         let highestPrices = Array.from(data.map(c => c.high));
 
-        // Select the lowest (Ln) price from the lowest prices and the highest price (Hn) from the highest prices during the n period
+        /*
+          Select the lowest (Ln) price from the lowest prices and the highest price (Hn) from
+          * the highest prices during the n period
+        */
         let Ln = Math.min(...lowestPrices);
         let Hn = Math.max(...highestPrices);
         
-        // Use the formula to calculate Stochastic
         let perK = 100 * ((Z - Ln) / (Hn - Ln));
         stochData.push(perK);
 
@@ -406,7 +433,6 @@ function stochastic(data, n) {
     let perD = movingAvg(stochData, 3, "sma");
     stochData.push(...perD);
 
-    // Return an array of 4 elements where the first three elements are for the %K and the last is for the %D
     return stochData;
 }
 
@@ -422,14 +448,11 @@ function RSI(data, n) {
         incCount = 0,
         decCount = 0;
     for (let i = 0; i < n; i++) {
-        // Check if the data[i + 1] element is undefied or not
         if (data.length > i + 1) {
-            // If not check/collect the prices occurred during decreasing over the n period
             if (data[i].close > data[i + 1].close) {
                 descreasedArr += data[i + 1].close;
                 decCount++;
             } else if (data[i].close < data[i + 1].close) {
-                // Otherwise, push it to the increased ones
                 increasedArr += data[i + 1].close;
                 incCount++;
             }
@@ -440,7 +463,6 @@ function RSI(data, n) {
     let avgInc = increasedArr / incCount;
     let avgDec = descreasedArr / decCount;
     
-    // Return the value of RSI with the precision of 4 decimals
     return (100 - (100 / (1 + avgInc / avgDec))).toFixed(2);
 }
 
@@ -452,7 +474,6 @@ function movingAvg(optional, k, type) {
     */
     
     if (type == "sma") {
-        // Loop from zero to array.lenght - moving average period
         // For every element we count the SMA from the surronding prices
         for (i = 0; i <= k; i++) {
             for (let n = i; n < i + k; n++) {
@@ -480,7 +501,6 @@ function movingAvg(optional, k, type) {
 
         for (let i = 0; i < k; i++) {
             // Decide whether the last EMA exists or not
-            // If not, default to the first closing price over the n period, otherwise lastPrice is already set to lastEMA
             lastPrice = lastPrice || Number(movingAvg(optional, tInt, "sma")[0]);
 
             // Count EMA with the formula
