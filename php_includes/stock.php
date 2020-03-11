@@ -1,12 +1,13 @@
 <?php
     function getDataStock(){
-        // Gather URLs into an array
-    	$aURLs = array("https://data.portfolio.hu/all/json/4IG:interval=1M",
-    				"https://data.portfolio.hu/all/json/MOL:interval=1M",
-    				"https://data.portfolio.hu/all/json/ESTMEDIA:interval=1M",
-    				"https://data.portfolio.hu/all/json/FUTURAQUA:interval=1M",
-    				"https://data.portfolio.hu/all/json/WABERERS:interval=1M",
-    				"https://data.portfolio.hu/all/json/MTELEKOM:interval=1M");
+    	$aURLs = array(
+        "https://data.portfolio.hu/all/json/4IG:interval=1M",
+        "https://data.portfolio.hu/all/json/MOL:interval=1M",
+        "https://data.portfolio.hu/all/json/ESTMEDIA:interval=1M",
+        "https://data.portfolio.hu/all/json/FUTURAQUA:interval=1M",
+        "https://data.portfolio.hu/all/json/WABERERS:interval=1M",
+        "https://data.portfolio.hu/all/json/MTELEKOM:interval=1M"
+      );
     
     	// Initialize curl for async (multi) use
     	$mh = curl_multi_init();
