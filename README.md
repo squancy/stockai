@@ -3,7 +3,9 @@ An open-source service for analysing the most important Hungarian stocks.
 
 Stock AI is a basic aritifical intelligence program that, with the help of some well-known indicators and moving averages, computes a single suggestion in order to decide whether a certain stock worth buying or not.<br>
 The calculations, functions and AI are mainly written in JavaScript, the data gathering and manipulation on the server-side are in PHP and the structure and styling is simple HTML and CSS.<br>
+<br>
 All the data for the stocks are collected from <b>data.portfolio.hu</b>.
+<br>
 <br>
 <b>Note:</b> the reliability of the 3rd-party stock data provider is not 100% so you may
 experience bugs & incorrect output but those are out of the software's control.
@@ -17,7 +19,6 @@ experience bugs & incorrect output but those are out of the software's control.
 
 <b>Stochastic</b>
 <p>The formula is <i>%K = 100 * ((Z - L<sub>n</sub>) / (H<sub>n</sub> - L<sub>n</sub>))</i> and <i>%D = SMA3(%K)</i> where <i>Z</i> is the last closing price, <i>L<sub>n</sub></i> is the lowest price during the <i>n</i> period, <i>H<sub>n</sub></i> is the highest price during the <i>n</i> period and <i>SMA3</i> is a simple moving average with a 3 day time interval. On Stock AI it is calculated with a 6 day time interval.</p>
-<br>
 <h3>Moving averages</h3>
 <b>SMA (Simple Moving Average)</b>
 <p>The formula is <i>(n<sub>1</sub> + n<sub>2</sub> + n<sub>3</sub> + ... + n<sub>i</sub>) / i</i>.</p>
