@@ -2,8 +2,11 @@
 An open-source service for analysing the most important Hungarian stocks.
 
 Stock AI is a basic aritifical intelligence program that, with the help of some well-known indicators and moving averages, computes a single suggestion in order to decide whether a certain stock worth buying or not.<br>
-The calculations, functions and AI are mainly written is JavaScript, the data gathering and manipulation on the server-side are in PHP and the structure and styling is simple HTML and CSS.<br>
-All the data for the stocks are collected from data.portfolio.hu.
+The calculations, functions and AI are mainly written in JavaScript, the data gathering and manipulation on the server-side are in PHP and the structure and styling is simple HTML and CSS.<br>
+All the data for the stocks are collected from <b>data.portfolio.hu</b>.
+<br>
+<b>Note:</b> the reliability of the 3rd-party stock data provider is not 100% so you may
+experience bugs & incorrect output but those are out of the software's control.
 
 ## Currenly available indicators
 <b>RSI (Relative Strength Index)</b>
